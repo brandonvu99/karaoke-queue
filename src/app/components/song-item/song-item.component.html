@@ -1,0 +1,9 @@
+<div [ngClass]="setClasses()">
+    <p>
+        {{ song.artist }}
+    </p>
+    <p>
+        {{ song.songName }}
+        <button (click)="onDelete(song)" class="del">x</button>
+    </p>
+</div>
