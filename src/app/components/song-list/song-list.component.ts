@@ -4,10 +4,10 @@ import { SongService } from '../../services/song.service'
 
 @Component({
   selector: 'app-songs',
-  templateUrl: './songs.component.html',
-  styleUrls: ['./songs.component.css']
+  templateUrl: './song-list.component.html',
+  styleUrls: ['./song-list.component.css']
 })
-export class SongsComponent implements OnInit {
+export class SongListComponent implements OnInit {
 
   songs:Song[];
 
