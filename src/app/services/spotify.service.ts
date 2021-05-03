@@ -31,7 +31,7 @@ export class SpotifyService {
     )
   }
 
-  async getSongImageUrlAndDuration(query:string): Promise<[string, number]> {
+  async getSongImageUrlAndDuration(query:string): Promise<Observable<any>> {
     if (this.accessToken === null) {
       let response = await this.getAccessToken().toPromise();
       if (response) {
@@ -43,7 +43,7 @@ export class SpotifyService {
     }
     let imageUrl!:string;
     let songDuration!:number;
-    this.http.get<any>("https://api.spotify.com/v1/search",
+    return this.http.get<any>("https://api.spotify.com/v1/search",
     {
       headers: {
         "Authorization": `Bearer ${this.accessToken}`,
@@ -51,13 +51,7 @@ export class SpotifyService {
       },
       params: new HttpParams().set('q', `${query}`).set('type', 'track').set('market', 'US').set('limit', '10').set('offset', '0'),
       responseType: 'json' as 'json'
-    }).subscribe(
-      data => {
-        console.log(`spotify data: ${data.tracks.items[0].album.images[1].url}`)
-        imageUrl = data.tracks.items[0].album.images[1].url;
-      }
-    )
-    return [imageUrl, songDuration];
+    })
   }
 }
 

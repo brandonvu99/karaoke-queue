@@ -22,13 +22,10 @@ export class SongFactoryService {
     }
 
     this.spotify.getSongImageUrlAndDuration(`${artist} ${songName}`)
-    .then(value => {
-      console.log(`value ${value}`)
-      newSong.imageUrl = value[0]
-      newSong.duration = value[1].toString()
-    })
-    // .catch(err => {
-    //   console.error(`error from me hehe: ${err}`)});
+    .then(observable => { observable.subscribe( data => {
+      newSong.imageUrl = data.tracks.items[0].album.images[1].url
+      newSong.duration = data.tracks.items[0].duration_ms.toString()
+    })})
     return newSong
   }
 }
