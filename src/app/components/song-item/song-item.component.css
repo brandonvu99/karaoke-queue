@@ -1,4 +1,76 @@
+body {
+    height: 100%;
+    overflow: scroll;
+}
+
+.song-item {
+    background: #868686;
+    padding: 10px;
+    border-bottom: 1px #ccc dotted;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.votes-cell {
+    order: 0;
+    flex-grow: 1;
+    font-size: 20px;
+}
+
+.image-duration-cell {
+    order: 1;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.image {
+    order: 0;
+}
+
+img {
+    max-width: 150px;
+    object-fit: cover;
+    vertical-align: bottom;
+    float: right;
+}
+
+.duration {
+    order: 1;
+    font-size: 20px;
+    text-align: right;
+}
+
+.artist-song-name-cell {
+    order: 2;
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.artist {
+    order: 0;
+    flex-grow: 1;
+}
+
+.song-name {
+    order: 1;
+    flex-grow: 2;
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.del-cell {
+    order: 3;
+    flex-grow: 1;
+}
+
 .del {
+    order: 3;
+    flex-grow: 1;
     background: #ff0000;
     color: #fff;
     border: none;
@@ -6,14 +78,4 @@
     border-radius: 50%;
     cursor: pointer;
     float: right;
-}
-
-.song {
-    background: #f4f4f4;
-    padding: 10px;
-    border-bottom: 1px #ccc dotted;
-}
-
-.is-completed {
-    text-decoration: line-through;
 }

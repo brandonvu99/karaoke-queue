@@ -29,8 +29,9 @@ export class SongListComponent implements OnInit {
   }
 
   addSong(song: Song) {
-    this.songService.addSong(song).subscribe(song => {
-      this.songs.push(song);
-    });
+    // Add to UI
+    this.songs.push(song);
+    // Add to server
+    this.songService.addSong(song);
   }
 }

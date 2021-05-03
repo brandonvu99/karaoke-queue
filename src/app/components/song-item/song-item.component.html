@@ -1,9 +1,24 @@
 <div [ngClass]="setClasses()">
-    <p>
-        {{ song.artist }}
-    </p>
-    <p>
-        {{ song.songName }}
+    <div class="votes-cell">
+        1
+    </div>
+    <div class="image-duration-cell">
+        <div class="image">
+            <img [src]="imageToShow">
+        </div>
+        <div class="duration">
+            {{ song.duration }}
+        </div>
+    </div>
+    <div class="artist-song-name-cell">
+        <div class="artist">
+            {{ song.artist }}
+        </div>
+        <div class="song-name">
+            {{ song.songName }}
+        </div>
+    </div>
+    <div class="del-cell">
         <button (click)="onDelete(song)" class="del">x</button>
-    </p>
+    </div>
 </div>

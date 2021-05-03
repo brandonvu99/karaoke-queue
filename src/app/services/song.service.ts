@@ -3,12 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Song } from '../models/Song'
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-}
+import { SongFactoryService } from './song-factory.service'
 
 @Injectable({
   providedIn: 'root'
@@ -21,19 +16,39 @@ export class SongService {
   songs:Song[];
   header:boolean = true;
 
-  constructor(private http:HttpClient) { 
-    this.songs = [
+  constructor(private http:HttpClient, private songFactory:SongFactoryService) { 
+    let mockSongs = [
       {
         artist: "RuPaul",
         songName: "New Friends Silver, Old Friends Gold",
         duration: "3:40"
       },
       {
-        artist: "RuPaul/The Cast of RuPaul's Drag Race, Season 13",
-        songName: "Lucky",
-        duration: "3:44"
-      }
+        artist: "Lady Gaga",
+        songName: "Bad Romance",
+        duration: "4:55"
+      },
+      {
+        artist: "Gym Class Heroes",
+        songName: "Ass Back Home (feat. Neon Hitch)",
+        duration: "3:42"
+      },
+      {
+        artist: "Lady Gaga",
+        songName: "Judas",
+        duration: "4:09"
+      },
+      {
+        artist: "Paramore",
+        songName: "Still Into You",
+        duration: "3:36"
+      },
     ]
+
+    this.songs = []
+    mockSongs.forEach(mockSong => {
+      this.songs.push(songFactory.createNewSongObject(mockSong.artist, mockSong.songName))
+    });
 
   }
 
@@ -44,13 +59,16 @@ export class SongService {
   }
 
   deleteSong(song: Song):Observable<Song> {
-    this.songs = this.songs.filter(s => s.songName !== song.songName && s.artist !== song.artist);
+    this.songs = this.songs.filter(s => (s.songName != song.songName) && (s.artist != song.artist));
     return new Observable(observer => {
       
     })
   }
 
   addSong(song: Song):Observable<Song> {
-    return this.http.post<Song>(this.todosUrl, song, httpOptions)
+    this.songs.push(song)
+    return new Observable(observer => {
+      
+    })
   }
 }
