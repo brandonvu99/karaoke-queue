@@ -8,13 +8,27 @@ body {
     padding: 10px;
     border-bottom: 1px #ccc dotted;
     display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.song-item-top {
+    order: 0;
+    display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
+.song-item-bottom {
+    order: 1;
+    flex-grow: 0;
+    font-size: 20px;
+    background: #d67112;
+}
+
 .votes-cell {
     order: 0;
-    flex-grow: 1;
+    flex-grow: 0;
     font-size: 20px;
 }
 
@@ -25,6 +39,7 @@ body {
     flex-basis: 30px;
     display: flex;
     flex-direction: column;
+    padding-left: 10px;
 }
 
 .image {
@@ -32,7 +47,8 @@ body {
 }
 
 img {
-    max-width: 150px;
+    max-width: 75px;
+    min-width: 75px;
     object-fit: cover;
     vertical-align: bottom;
     float: right;
@@ -41,7 +57,7 @@ img {
 .duration {
     order: 1;
     font-size: 20px;
-    text-align: right;
+    text-align: center;
 }
 
 .artist-song-name-cell {
@@ -49,6 +65,7 @@ img {
     flex-grow: 2;
     display: flex;
     flex-direction: column;
+    padding-left: 10px;
 }
 
 .artist {

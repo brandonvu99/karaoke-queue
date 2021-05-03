@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Song } from '../models/Song';
 import { SpotifyService } from './spotify.service';
+import * as moment from 'moment';
 
 const httpOptions = {
   responseType: 'blob' as 'blob',
@@ -18,14 +19,9 @@ export class SongFactoryService {
     
     let newSong:Song = {
       artist: artist,
-      songName: songName
+      songName: songName,
+      timeAdded: moment("2021-05-03T12:00:00")
     }
-
-    this.spotify.getSongImageUrlAndDuration(`${artist} ${songName}`)
-    .then(observable => { observable.subscribe( data => {
-      newSong.imageUrl = data.tracks.items[0].album.images[1].url
-      newSong.duration = data.tracks.items[0].duration_ms.toString()
-    })})
     return newSong
   }
 }

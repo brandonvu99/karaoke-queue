@@ -9,10 +9,9 @@ import { SongService } from '../../services/song.service'
 })
 export class SongListComponent implements OnInit {
 
-  songs:Song[];
+  songs:Song[] = [];
 
-  constructor(private songService:SongService) { 
-    this.songs = [];
+  constructor(private songService:SongService) {
     this.songService.getSongs().subscribe( songs => {
       this.songs = songs;
     });
@@ -23,7 +22,7 @@ export class SongListComponent implements OnInit {
 
   deleteSong(song: Song) {
     // Remove from UI
-    this.songs = this.songs.filter(s => s.songName !== song.songName && s.artist !== song.artist);
+    this.songs = this.songs.filter(s => (s.songName !== song.songName) || (s.artist !== song.artist));
     // Remove from server
     this.songService.deleteSong(song);
   }

@@ -1,24 +1,34 @@
 <div [ngClass]="setClasses()">
-    <div class="votes-cell">
-        1
+    <div class="song-item-top">
+        <div class="votes-cell">
+            1
+        </div>
+        <div class="image-duration-cell">
+            <div class="image">
+                <img [src]="imageToShow">
+            </div>
+            <div class="duration">
+                {{ song.duration_readable }}
+            </div>
+        </div>
+        <div class="artist-song-name-cell">
+            <div class="artist">
+                {{ song.artist }}
+            </div>
+            <div class="song-name">
+                {{ song.songName }}
+            </div>
+        </div>
+        <div class="del-cell">
+            <button (click)="onDelete(song)" class="del">x</button>
+        </div>
     </div>
-    <div class="image-duration-cell">
-        <div class="image">
-            <img [src]="imageToShow">
+    <div class="song-item-bottom">
+        <div>
+            Time since added: {{ timeSinceAdded }}
         </div>
-        <div class="duration">
-            {{ song.duration }}
+        <div>
+            Wait time until play: {{ waitTime }}
         </div>
-    </div>
-    <div class="artist-song-name-cell">
-        <div class="artist">
-            {{ song.artist }}
-        </div>
-        <div class="song-name">
-            {{ song.songName }}
-        </div>
-    </div>
-    <div class="del-cell">
-        <button (click)="onDelete(song)" class="del">x</button>
     </div>
 </div>

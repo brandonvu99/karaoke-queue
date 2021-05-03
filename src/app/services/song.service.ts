@@ -53,13 +53,15 @@ export class SongService {
   }
 
   getSongs():Observable<Song[]> {
+    const myClonedArray:Song[] = [];
+    this.songs.forEach(val => myClonedArray.push(Object.assign({}, val)));
     return new Observable(observer => {
-      observer.next(this.songs)
+      observer.next(myClonedArray)
     })
   }
 
   deleteSong(song: Song):Observable<Song> {
-    this.songs = this.songs.filter(s => (s.songName != song.songName) && (s.artist != song.artist));
+    this.songs = this.songs.filter(s => (s.songName !== song.songName) && (s.artist !== song.artist));
     return new Observable(observer => {
       
     })
