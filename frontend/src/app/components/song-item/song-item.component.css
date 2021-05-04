@@ -82,12 +82,13 @@ img {
 
 .del-cell {
     order: 3;
-    flex-grow: 1;
+    flex-grow: 0;
+    padding: 0 0 0 0;
 }
 
 .del {
     order: 3;
-    flex-grow: 1;
+    flex-grow: 0;
     background: #ff0000;
     color: #fff;
     border: none;

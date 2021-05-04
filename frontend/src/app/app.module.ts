@@ -11,6 +11,7 @@ import { SongItemComponent } from './components/song-item/song-item.component';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { AddSongComponent } from './components/add-song/add-song.component';
 import { AboutComponent } from './components/pages/about/about.component';
+import { UpvoteButtonComponent } from './components/upvote-button/upvote-button.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AboutComponent } from './components/pages/about/about.component';
     SongItemComponent,
     HeaderComponent,
     AddSongComponent,
-    AboutComponent
+    AboutComponent,
+    UpvoteButtonComponent
   ],
   imports: [
     BrowserModule,

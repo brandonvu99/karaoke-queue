@@ -73,4 +73,8 @@ export class SongService {
       
     })
   }
+
+  updateUserVote(songIndex:number, userId:number, vote:number) {
+    this.songs[songIndex].upvotes! += vote;
+  }
 }

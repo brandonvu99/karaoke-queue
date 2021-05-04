@@ -48,7 +48,7 @@ export class SongItemComponent implements OnInit {
         this.timeSinceAdded = moment(this.song.timeAdded).fromNow()
       })
 
-      this.waitTimeSubscription = timer(0, 10000).subscribe( _ => {
+      this.waitTimeSubscription = timer(1000, 6000).subscribe( _ => {
         let cumulativeTimeInMs:number = 0;
         this.allSongs.forEach( (otherSong, index) => {
           if (index < this.indexInAllSongs) {

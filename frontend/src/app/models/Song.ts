@@ -7,6 +7,7 @@ export class Song {
     duration_readable?:string;
     timeAdded:moment.Moment;
     imageUrl?:any;
+    upvotes?:number;
 
     constructor(artist:string, songName:string, timeAdded:moment.Moment) {
         this.artist = artist;

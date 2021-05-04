@@ -20,7 +20,8 @@ export class SongFactoryService {
     let newSong:Song = {
       artist: artist,
       songName: songName,
-      timeAdded: moment("2021-05-03T12:00:00")
+      timeAdded: moment("2021-05-03T12:00:00"),
+      upvotes: 5
     }
     return newSong
   }
