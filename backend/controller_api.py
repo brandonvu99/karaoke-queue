@@ -67,33 +67,41 @@ def get_songs(song_queue_id):
 
 @app.route("/api/song_queues/<song_queue_id>/songs/<id>", methods=['DELETE'])
 def delete_song(song_queue_id, id):
-    song_to_delete = Song(
-        song_queue_id=song_queue_id,
-        id=id
+    song_to_delete = Song.get(
+        song_queue_id,
+        id
     )
-    deleted_song = song_to_delete.delete()
-    return str(deleted_song), 200
+    song_to_delete.delete()
+    return dict(song_to_delete), 200
 
-@app.route("/api/song_queues/<song_queue_id>/songs/<id>/upvote/<update_vote_by_this_much>", methods=['POST'])
-def update_upvote_on_song_by(song_queue_id, id, update_upvote_by_this_much):
-    update_upvote_by_this_much = int(update_upvote_by_this_much)
+@app.route("/api/song_queues/<song_queue_id>/songs/<id>/upvote", methods=['POST'])
+def update_upvote_on_song_by(song_queue_id, id):
+    jsonData = request.json
+    update_upvote_by_this_much = int(jsonData['update_upvote_by_this_much'])
     if abs(update_upvote_by_this_much) != 1:
         return f'update_vote_by_this_much must be -1 or 1. Value was {update_upvote_by_this_much}', 400
     song_to_update = Song.get(
         song_queue_id,
         id
     )
-    updated_song = song_to_update.update(
+    updated_song_info = song_to_update.update(
         actions=[
             Song.upvotes.set(Song.upvotes + update_upvote_by_this_much)
         ]
+    )["Attributes"]
+    update_song = Song(
+        song_queue_id=updated_song_info['song_queue_id']['S'],
+        id=updated_song_info['id']['S'], 
+        user_id=updated_song_info['user_id']['S'], 
+        date_created=datetime.strptime(updated_song_info['date_created']['S'], r'%Y-%m-%dT%H:%M:%S.%f%z'), 
+        artist=updated_song_info['artist']['S'],
+        song_name=updated_song_info['song_name']['S'],
+        duration_ms=int(updated_song_info['duration_ms']['N']),
+        upvotes=int(updated_song_info['upvotes']['N']),
+        image_url=updated_song_info['image_url']['S']
     )
-    return dict(updated_song), 200
+    return dict(update_song), 200
 
 Song.create_table(wait=True)
-
-
-app.config["DEBUG"] = True
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
-app.run()
+CORS(app)
+app.run(debug=True)

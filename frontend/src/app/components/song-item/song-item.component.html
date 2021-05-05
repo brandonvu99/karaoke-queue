@@ -1,7 +1,7 @@
 <div [ngClass]="setClasses()">
     <div class="song-item-top">
         <div class="votes-cell">
-            <app-upvote-button>
+            <app-upvote-button [song]="song">
             </app-upvote-button>
         </div>
         <div class="image-duration-cell">

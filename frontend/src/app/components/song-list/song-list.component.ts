@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { Song } from '../../models/Song'
 import { SongService } from '../../services/song.service'
+import { v4 as uuid4 } from 'uuid';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-songs',
@@ -21,7 +23,7 @@ export class SongListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.refreshSubscription = timer(1000, 15000).subscribe( _ => {
+    this.refreshSubscription = timer(1000, 3000).subscribe( _ => {
       console.log('refreshing songs')
       this.refresh()
     })
@@ -73,10 +75,21 @@ export class SongListComponent implements OnInit {
     this.songService.deleteSong(songToDelete)
   }
 
-  addSong(song: Song) {
-    // Add to UI
-    this.songs.push(song);
-    // Add to server
-    this.songService.addSong(song);
+  addSong(song_info:any) {
+    let songToAdd = {
+      song_queue_id: "1",
+      id: uuid4(),
+      user_id: "Brandon Vu Angular",
+      date_created: moment(),
+      artist: song_info.artist,
+      song_name: song_info.song_name,
+      upvotes: 0
+    }
+    
+    // add song to local storage
+    this.songs.push(songToAdd);
+
+    // add song to database
+    this.songService.addSong(songToAdd);
   }
 }

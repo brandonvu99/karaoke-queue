@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Song } from '../../models/Song'
 import { Subscription } from 'rxjs';
 import { SongService } from 'src/app/services/song.service';
 
@@ -9,14 +10,13 @@ import { SongService } from 'src/app/services/song.service';
 })
 export class UpvoteButtonComponent implements OnInit {
 
-  // @Input() songIndex;
+  @Input() song!:Song;
 
-  voteCount:number = 0;
   userVoted:boolean = false;
 
   subscription?:Subscription;
 
-  constructor(songService:SongService) { }
+  constructor(private songService:SongService) { }
 
   ngOnInit() {
     // this.subscription = this.upvoteService.getItemVotes(this.itemId).subscribe(upvotes => {
@@ -26,19 +26,16 @@ export class UpvoteButtonComponent implements OnInit {
   }
 
   upvote() {
+    let adder = this.userVoted ? -1 : 1
+
     // Update in UI
-    if (this.userVoted) {
-      this.voteCount--;
-    } else {
-      this.voteCount++;
-    }
-
-
-
-    this.userVoted = !this.userVoted;
+    this.song.upvotes += adder
 
     // Update in server
-    // this.songService.updateUserVote(this.itemId, this.userId, vote)
+    this.songService.updateUserVoteOnSong(this.song.id, adder)
+
+    // update the user's status
+    this.userVoted = !this.userVoted;
   }
 
   setClasses() {

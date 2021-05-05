@@ -33,12 +33,15 @@ export class SongItemComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.song)
     
-    // display the album art
-    if (this.song.image_url) {
+    // display the album art, and only pull the image again if it disappeared (somehow, not sure a scenario when that would be)
+    this.imageToShow = this.songService.getImage(this.song.id)
+    if (!this.imageToShow && this.song.image_url) {
       this.http.get(this.song.image_url, httpOptions).subscribe(data => {
+          console.log('pinged spotify for album cover')
           let reader = new FileReader(); //you need file reader for read blob data to base64 image data.
           reader.addEventListener("load", () => {
               this.imageToShow = reader.result; // here is the result you got from reader
+              this.songService.addImage(this.song.id, this.imageToShow);
           }, false);
 
           if (data) {

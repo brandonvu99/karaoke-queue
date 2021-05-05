@@ -10,7 +10,7 @@ export class AddSongComponent implements OnInit {
   @Output() addSong: EventEmitter<any> = new EventEmitter;
 
   artist:string|null = null;
-  songName:string|null = null;
+  song_name:string|null = null;
 
   constructor() {
   }
@@ -19,12 +19,12 @@ export class AddSongComponent implements OnInit {
   }
 
   onSubmit() {
-    const song = {
+    const song_info = {
       artist: this.artist,
-      songName: this.songName
+      song_name: this.song_name
     }
 
-    this.addSong.emit(song);
+    this.addSong.emit(song_info);
   }
 
 }

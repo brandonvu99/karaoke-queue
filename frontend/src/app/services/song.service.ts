@@ -5,6 +5,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 
 import { Song } from '../models/Song'
 
+const httpOptions = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +20,8 @@ export class SongService {
 
   songs:Song[] = [];
   header:boolean = true;
+
+  song_id_to_image: Map<string, any> = new Map()
 
   backendApiUrl:string = "http://127.0.0.1:5000"
 
@@ -58,19 +68,35 @@ export class SongService {
       .subscribe();
   }
 
-  addSong(song: Song):Observable<Song> {
-    this.songs.push(song)
-    return new Observable(observer => {
-      
-    })
+  addSong(song: Song):Subscription {
+    return this.http.post<Song>(`${this.backendApiUrl}/api/song_queues/1/songs`, song)
+      .pipe(retry(1),
+        catchError(this.handleError))
+      .subscribe();
   }
 
-  updateUserVote(songIndex:number, userId:number, vote:number) {
-    this.songs[songIndex].upvotes! += vote;
+  updateUserVoteOnSong(songId:string, vote:number):Subscription {
+    return this.http.post<any>(`${this.backendApiUrl}/api/song_queues/1/songs/${songId}/upvote`, 
+      {"update_upvote_by_this_much" : vote}
+    ).pipe(retry(1),
+        catchError(this.handleError))
+      .subscribe();
   }
 
   handleError(error: HttpErrorResponse) {
     console.log("Caught an error!")
     return throwError(error);
+  }
+
+  addImage(id:string, image:any) {
+    this.song_id_to_image.set(id, image);
+  }
+
+  getImage(id:string): any {
+    return this.song_id_to_image.get(id);
+  }
+
+  deleteImage(id:string) {
+    this.song_id_to_image.delete(id);
   }
 }
