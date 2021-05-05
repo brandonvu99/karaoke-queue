@@ -4,7 +4,6 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import { Song } from '../models/Song'
-import { SongFactoryService } from './song-factory.service'
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class SongService {
 
   backendApiUrl:string = "http://127.0.0.1:5000"
 
-  constructor(private http:HttpClient, private songFactory:SongFactoryService) { 
+  constructor(private http:HttpClient) { 
     let mockSongs = [
       {
         artist: "RuPaul",

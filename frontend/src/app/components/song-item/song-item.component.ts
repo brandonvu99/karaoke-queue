@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { SongFactoryService } from 'src/app/services/song-factory.service';
 import { Song } from '../../models/Song'
 import { SongService } from '../../services/song.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -28,7 +27,7 @@ export class SongItemComponent implements OnInit {
   songWaitTime:string|null = null;
   songWaitTimeSubscription:Subscription|null = null;
 
-  constructor(private songService:SongService, private songFactory:SongFactoryService, private http:HttpClient) {
+  constructor(private songService:SongService, private http:HttpClient) {
   }
 
   ngOnInit(): void {
