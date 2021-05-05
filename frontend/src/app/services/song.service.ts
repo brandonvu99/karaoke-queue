@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subscription, Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import { Song } from '../models/Song'
@@ -57,8 +57,21 @@ export class SongService {
 
   getSongs():Observable<Song[]> {
     return this.http.get<Song[]>(`${this.backendApiUrl}/api/song_queues/1/songs`)
-      .pipe(retry(1),
-        catchError(this.handleError));
+      .pipe(
+        map((songs:Song[]) => songs.map((song_info) => new Song(
+          song_info['song_queue_id'],
+          song_info['id'],
+          song_info['user_id'],
+          song_info['date_created'],
+          song_info['artist'],
+          song_info['song_name'],
+          Number(song_info['duration_ms']),
+          Number(song_info['upvotes']),
+          String(song_info['image_url'])
+        ))),
+        retry(1),
+        catchError(this.handleError)
+    );
   }
 
   deleteSong(song: Song):Subscription {

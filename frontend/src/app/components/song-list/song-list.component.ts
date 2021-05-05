@@ -23,7 +23,7 @@ export class SongListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.refreshSubscription = timer(1000, 3000).subscribe( _ => {
+    this.refreshSubscription = timer(1000, 1000).subscribe( _ => {
       console.log('refreshing songs')
       this.refresh()
     })
@@ -32,7 +32,6 @@ export class SongListComponent implements OnInit {
   refresh(): void {
     // update list of songs
     this.songService.getSongs().subscribe( (refreshedSongs:Song[]) => {
-
       // update individual songs while also removing songs that were deleted in database
       this.songs = this.songs.map(oldSong => {
         let refreshedSongWithMatchingId = refreshedSongs.find(refreshedSong2 => refreshedSong2.id == oldSong.id)
@@ -83,6 +82,7 @@ export class SongListComponent implements OnInit {
       date_created: moment(),
       artist: song_info.artist,
       song_name: song_info.song_name,
+      duration_ms: 0,
       upvotes: 0
     }
     

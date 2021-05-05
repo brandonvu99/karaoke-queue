@@ -30,9 +30,7 @@ export class SongItemComponent implements OnInit {
   constructor(private songService:SongService, private http:HttpClient) {
   }
 
-  ngOnInit(): void {
-    console.log(this.song)
-    
+  ngOnInit(): void { 
     // display the album art, and only pull the image again if it disappeared (somehow, not sure a scenario when that would be)
     this.imageToShow = this.songService.getImage(this.song.id)
     if (!this.imageToShow && this.song.image_url) {
@@ -53,7 +51,7 @@ export class SongItemComponent implements OnInit {
     }
 
     // display the duration of the song
-    let song_duration_as_moment = moment.duration(this.song.duration, 'ms')
+    let song_duration_as_moment = moment.duration(this.song.duration_ms, 'ms')
     this.song.duration_readable = `${song_duration_as_moment.minutes().toString().padStart(2, '0')}:${song_duration_as_moment.seconds().toString().padStart(2, '0')}`;
     
     // display the time since the song was created
