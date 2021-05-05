@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Song } from '../models/Song';
-import { SpotifyService } from './spotify.service';
 import * as moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 
 const httpOptions = {
   responseType: 'blob' as 'blob',
@@ -13,15 +13,18 @@ const httpOptions = {
 })
 export class SongFactoryService {
 
-  constructor(private spotify:SpotifyService) { }
+  constructor() { }
 
   createNewSongObject(artist:string, songName:string):Song {
     
     let newSong:Song = {
+      song_queue_id: "1",
+      id: uuidv4(),
+      user_id: "Brandon Vu",
+      date_created: moment("2021-05-03T12:00:00"),
       artist: artist,
-      songName: songName,
-      timeAdded: moment("2021-05-03T12:00:00"),
-      upvotes: 5
+      song_name: songName,
+      upvotes: 0
     }
     return newSong
   }

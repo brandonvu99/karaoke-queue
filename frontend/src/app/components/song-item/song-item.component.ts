@@ -3,7 +3,6 @@ import { SongFactoryService } from 'src/app/services/song-factory.service';
 import { Song } from '../../models/Song'
 import { SongService } from '../../services/song.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SpotifyService } from 'src/app/services/spotify.service';
 import * as moment from 'moment';
 import { Subscription, timer } from 'rxjs';
 import 'moment-duration-format';
@@ -20,59 +19,58 @@ const httpOptions = {
 export class SongItemComponent implements OnInit {
 
   @Input() song!:Song;
-  @Input() allSongs!:Song[];
-  @Input() indexInAllSongs!:number;
   @Output() deleteSong:EventEmitter<Song> = new EventEmitter();
 
   imageToShow:any;
 
-  timeSinceAdded:string|null = null;
-  timeSinceAddedSubscription:Subscription|null = null;
-  waitTime:string|null = null;
-  waitTimeSubscription:Subscription|null = null;
+  timeSinceCreated:string|null = null;
+  timeSinceCreatedSubscription:Subscription|null = null;
+  songWaitTime:string|null = null;
+  songWaitTimeSubscription:Subscription|null = null;
 
-  constructor(private songService:SongService, private songFactory:SongFactoryService, private http:HttpClient, private spotify:SpotifyService) {
+  constructor(private songService:SongService, private songFactory:SongFactoryService, private http:HttpClient) {
   }
 
   ngOnInit(): void {
-    this.spotify.getSongImageUrlAndDuration(`${this.song.artist} ${this.song.songName}`)
-    .then(observable => { observable.subscribe( data => {
-      this.song.imageUrl = data.tracks.items[0].album.images[2].url
-      this.song.duration = moment.duration(data.tracks.items[0].duration_ms, 'ms')
-      this.song.duration_readable = `${this.song.duration.minutes().toString().padStart(2, '0')}:${this.song.duration.seconds().toString().padStart(2, '0')}`;
-
-      let delay = 0;
-      let intervalInMs = 1000;
-      this.timeSinceAddedSubscription = timer(delay, intervalInMs).subscribe( _ => {
-        // console.log('test')
-        this.timeSinceAdded = moment(this.song.timeAdded).fromNow()
-      })
-
-      this.waitTimeSubscription = timer(1000, 6000).subscribe( _ => {
-        let cumulativeTimeInMs:number = 0;
-        this.allSongs.forEach( (otherSong, index) => {
-          if (index < this.indexInAllSongs) {
-            cumulativeTimeInMs += otherSong.duration!.asMilliseconds()
-          }
-        })
-        let cumulativeTimeInMsDuration = moment.duration(cumulativeTimeInMs, 'ms')
-        // this.waitTime = `${cumulativeTimeInMsDuration.asHours() > 0 ? cumulativeTimeInMsDuration.hours().toString().padStart(2, '0') + ":" : ""}${cumulativeTimeInMsDuration.minutes().toString().padStart(2, '0')}:${cumulativeTimeInMsDuration.seconds().toString().padStart(2, '0')}`
-        this.waitTime = cumulativeTimeInMsDuration.format("HH:mm:ss", {trim: false})
-      })
-      
-      this.http.get(this.song.imageUrl, httpOptions).subscribe(data => {
+    console.log(this.song)
+    
+    // display the album art
+    if (this.song.image_url) {
+      this.http.get(this.song.image_url, httpOptions).subscribe(data => {
           let reader = new FileReader(); //you need file reader for read blob data to base64 image data.
           reader.addEventListener("load", () => {
               this.imageToShow = reader.result; // here is the result you got from reader
           }, false);
-  
+
           if (data) {
               reader.readAsDataURL(data);
           }
       }, error => {
-        console.log("Error occured", error);
+        console.log(`Error occured while downloading image from this url: ${this.song.image_url}`, error);
       });
-    })})
+    }
+
+    // display the duration of the song
+    let song_duration_as_moment = moment.duration(this.song.duration, 'ms')
+    this.song.duration_readable = `${song_duration_as_moment.minutes().toString().padStart(2, '0')}:${song_duration_as_moment.seconds().toString().padStart(2, '0')}`;
+    
+    // display the time since the song was created
+    this.timeSinceCreatedSubscription = timer(0, 1000).subscribe( _ => {
+      this.timeSinceCreated = moment(this.song.date_created).fromNow()
+    })
+
+    // // display the time until the song is played
+    // this.waitTimeSubscription = timer(1000, 6000).subscribe( _ => {
+    //   let cumulativeTimeInMs:number = 0;
+    //   this.allSongs.forEach( (otherSong, index) => {
+    //     if (index < this.indexInAllSongs) {
+    //       cumulativeTimeInMs += otherSong.duration!.asMilliseconds()
+    //     }
+    //   })
+    //   let cumulativeTimeInMsDuration = moment.duration(cumulativeTimeInMs, 'ms')
+    //   // this.waitTime = `${cumulativeTimeInMsDuration.asHours() > 0 ? cumulativeTimeInMsDuration.hours().toString().padStart(2, '0') + ":" : ""}${cumulativeTimeInMsDuration.minutes().toString().padStart(2, '0')}:${cumulativeTimeInMsDuration.seconds().toString().padStart(2, '0')}`
+    //   this.waitTime = cumulativeTimeInMsDuration.format("HH:mm:ss", {trim: false})
+    // })    
   }
 
   setClasses() {
@@ -83,8 +81,8 @@ export class SongItemComponent implements OnInit {
   }
 
   onDelete(song:Song) {
-    this.timeSinceAddedSubscription?.unsubscribe();
-    this.waitTimeSubscription?.unsubscribe();
+    this.timeSinceCreatedSubscription?.unsubscribe();
+    this.songWaitTimeSubscription?.unsubscribe();
     this.deleteSong.emit(song);
   }
 }

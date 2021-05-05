@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subscription, Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import { Song } from '../models/Song'
 import { SongFactoryService } from './song-factory.service'
@@ -10,11 +11,10 @@ import { SongFactoryService } from './song-factory.service'
 })
 export class SongService {
 
-  todosUrl:string = "https://jsonplaceholder.typicode.com/todos";
-  todosLimit:string = "?_limit=5";
-
-  songs:Song[];
+  songs:Song[] = [];
   header:boolean = true;
+
+  backendApiUrl:string = "http://127.0.0.1:5000"
 
   constructor(private http:HttpClient, private songFactory:SongFactoryService) { 
     let mockSongs = [
@@ -44,27 +44,19 @@ export class SongService {
         duration: "3:36"
       },
     ]
-
-    this.songs = []
-    mockSongs.forEach(mockSong => {
-      this.songs.push(songFactory.createNewSongObject(mockSong.artist, mockSong.songName))
-    });
-
   }
 
   getSongs():Observable<Song[]> {
-    const myClonedArray:Song[] = [];
-    this.songs.forEach(val => myClonedArray.push(Object.assign({}, val)));
-    return new Observable(observer => {
-      observer.next(myClonedArray)
-    })
+    return this.http.get<Song[]>(`${this.backendApiUrl}/api/song_queues/1/songs`)
+      .pipe(retry(1),
+        catchError(this.handleError));
   }
 
-  deleteSong(song: Song):Observable<Song> {
-    this.songs = this.songs.filter(s => (s.songName !== song.songName) && (s.artist !== song.artist));
-    return new Observable(observer => {
-      
-    })
+  deleteSong(song: Song):Subscription {
+    return this.http.delete<Song>(`${this.backendApiUrl}/api/song_queues/1/songs/${song.id}`)
+      .pipe(retry(1),
+        catchError(this.handleError))
+      .subscribe();
   }
 
   addSong(song: Song):Observable<Song> {
@@ -76,5 +68,10 @@ export class SongService {
 
   updateUserVote(songIndex:number, userId:number, vote:number) {
     this.songs[songIndex].upvotes! += vote;
+  }
+
+  handleError(error: HttpErrorResponse) {
+    console.log("Caught an error!")
+    return throwError(error);
   }
 }

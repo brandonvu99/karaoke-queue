@@ -17,7 +17,7 @@
                 {{ song.artist }}
             </div>
             <div class="song-name">
-                {{ song.songName }}
+                {{ song.song_name }}
             </div>
         </div>
         <div class="del-cell">
@@ -26,10 +26,10 @@
     </div>
     <div class="song-item-bottom">
         <div>
-            Time since added: {{ timeSinceAdded }}
+            Time since added: {{ timeSinceCreated }}
         </div>
         <div>
-            Wait time until play: {{ waitTime }}
+            Wait time until play: {{ songWaitTime }}
         </div>
     </div>
 </div>

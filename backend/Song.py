@@ -31,7 +31,7 @@ class Song(Model):
     song_name = UnicodeAttribute()
 
     # Song duration
-    duration = UnicodeAttribute(default="03:15")
+    duration_ms = NumberAttribute(default=0) # UnicodeAttribute(default="03:15")
 
     # Number of upvotes on this song
     upvotes = NumberAttribute(default=0)

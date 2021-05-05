@@ -19,6 +19,6 @@ def get_artist_song_name_image_url_duration(artist, song_name):
     artist = song_info['album']['artists'][0]['name']
     song_name = song_info['name']
     print(song_name)
-    image_url = song_info['album']['images'][-1]['url']
+    image_url = song_info['album']['images'][-2]['url']
     duration = song_info['duration_ms']
     return artist, song_name, image_url, duration
