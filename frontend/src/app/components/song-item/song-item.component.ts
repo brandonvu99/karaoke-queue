@@ -73,6 +73,11 @@ export class SongItemComponent implements OnInit {
     // })    
   }
 
+  ngOnDestory(): void {
+    this.timeSinceCreatedSubscription?.unsubscribe()
+    this.songWaitTimeSubscription?.unsubscribe()
+  }
+
   setClasses() {
     let classes = {
       "song-item": true

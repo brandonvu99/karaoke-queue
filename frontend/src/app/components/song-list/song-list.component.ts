@@ -29,6 +29,10 @@ export class SongListComponent implements OnInit {
     })
   }
 
+  ngOnDestory(): void {
+    this.refreshSubscription.unsubscribe()
+  }
+
   refresh(): void {
     // update list of songs
     this.songService.getSongs().subscribe( (refreshedSongs:Song[]) => {
