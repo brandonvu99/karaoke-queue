@@ -1,7 +1,9 @@
 <div class="outer">
     <form class="form" (ngSubmit)="onSubmit()">
-        <input type="text" name="title" [(ngModel)]="artist" placeholder="[[Type Artist Name Here]]">
-        <input type="text" name="title" [(ngModel)]="song_name" placeholder="[[Type Song Name Here]]">
+        <div class="artist-song-form">
+            <input type="text" name="title" [(ngModel)]="artist" placeholder="[[Type Artist Name Here]]">
+            <input type="text" name="title" [(ngModel)]="song_name" placeholder="[[Type Song Name Here]]">
+        </div>
         <input type="submit" value="Submit" class="btn">
     </form>
 </div>
