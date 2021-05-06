@@ -91,7 +91,7 @@ export class SongService {
   updateUserVoteOnSong(songId:string, is_upvote:boolean):Subscription {
     return this.http.post<any>(`${this.backendApiUrl}/api/song_queues/1/songs/${songId}/upvote`, 
       {
-        "user_id" : "Brandon Vu",
+        "user_id" : "Brandon Vu Angular",
         "is_upvote": is_upvote
       }
     ).pipe(retry(1),
