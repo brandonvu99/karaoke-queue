@@ -73,7 +73,7 @@ export class SongListComponent implements OnInit {
     let songToAdd = {
       song_queue_id: "1",
       id: uuid4(),
-      user_id: "Brandon Vu Angular",
+      requester_id: "Brandon Vu Angular",
       date_created: moment(),
       artist: song_info.artist,
       song_name: song_info.song_name,

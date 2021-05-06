@@ -27,7 +27,7 @@ def get_initial_response():
 def create_song(song_queue_id):
     jsonData = request.json
 
-    user_id = jsonData['user_id']
+    requester_id = jsonData['requester_id']
     artist = jsonData['artist']
     song_name = jsonData['song_name']
 
@@ -48,7 +48,7 @@ def create_song(song_queue_id):
     song_to_write = Song(
         song_queue_id=song_queue_id,
         id=str(uuid.uuid4()), 
-        user_id=user_id, 
+        requester_id=requester_id, 
         date_created=date_created, 
         artist=artist,
         song_name=song_name,
@@ -78,7 +78,7 @@ def delete_song(song_queue_id, id):
 def update_upvote(song_queue_id, id):
     jsonData = request.json
 
-    user_id = jsonData['user_id']
+    requester_id = jsonData['requester_id']
     is_upvote = jsonData['is_upvote']
 
     song_to_update = Song.get(
@@ -88,13 +88,13 @@ def update_upvote(song_queue_id, id):
     if is_upvote:
         updated_song_info = song_to_update.update(
             actions=[
-                Song.upvotes.add({user_id})
+                Song.upvotes.add({requester_id})
             ]
         )
     else:
         updated_song_info = song_to_update.update(
             actions=[
-                Song.upvotes.delete({user_id})
+                Song.upvotes.delete({requester_id})
             ]
         )
     updated_song_info = updated_song_info['Attributes']
@@ -103,7 +103,7 @@ def update_upvote(song_queue_id, id):
     update_song = Song(
         song_queue_id=updated_song_info['song_queue_id']['S'],
         id=updated_song_info['id']['S'], 
-        user_id=updated_song_info['user_id']['S'], 
+        requester_id=updated_song_info['requester_id']['S'], 
         date_created=datetime.strptime(updated_song_info['date_created']['S'], r'%Y-%m-%dT%H:%M:%S.%f%z'), 
         artist=updated_song_info['artist']['S'],
         song_name=updated_song_info['song_name']['S'],

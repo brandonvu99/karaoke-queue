@@ -19,7 +19,7 @@ class Song(Model):
     id = UnicodeAttribute(range_key=True)
 
     # ID of the requestor of the Song
-    user_id = UnicodeAttribute()
+    requester_id = UnicodeAttribute()
 
     # Time of Song request in epoch milliseconds
     date_created = UTCDateTimeAttribute()
@@ -33,7 +33,7 @@ class Song(Model):
     # Song duration
     duration_ms = NumberAttribute(default=0) # UnicodeAttribute(default="03:15")
 
-    # A set of user_id's that have upvoted this song
+    # A set of requester_id's that have upvoted this song
     upvotes = UnicodeSetAttribute(default=dict)
 
     # Song image url

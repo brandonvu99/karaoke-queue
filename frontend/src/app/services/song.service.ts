@@ -61,7 +61,7 @@ export class SongService {
         map((songs:Song[]) => songs.map((song_info) => new Song(
           song_info['song_queue_id'],
           song_info['id'],
-          song_info['user_id'],
+          song_info['requester_id'],
           song_info['date_created'],
           song_info['artist'],
           song_info['song_name'],
@@ -91,7 +91,7 @@ export class SongService {
   updateUserVoteOnSong(songId:string, is_upvote:boolean):Subscription {
     return this.http.post<any>(`${this.backendApiUrl}/api/song_queues/1/songs/${songId}/upvote`, 
       {
-        "user_id" : "Brandon Vu Angular",
+        "requester_id" : "Brandon Vu Angular",
         "is_upvote": is_upvote
       }
     ).pipe(retry(1),
