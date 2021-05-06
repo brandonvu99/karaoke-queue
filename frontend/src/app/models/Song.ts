@@ -10,10 +10,10 @@ export class Song {
     song_name:string;
     duration_ms:number;
     duration_readable?:string;
-    upvotes:number;
+    upvotes:string[];
     image_url?:string;
 
-    constructor(songQueueId:string, id:string, userId:string, date_created:moment.Moment, artist:string, song_name:string, duration_ms:number, upvotes:number, image_url:string) {
+    constructor(songQueueId:string, id:string, userId:string, date_created:moment.Moment, artist:string, song_name:string, duration_ms:number, upvotes:string[], image_url:string) {
         this.song_queue_id = songQueueId;
         this.id = id;
         this.user_id = userId;

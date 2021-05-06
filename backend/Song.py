@@ -1,5 +1,5 @@
 from pynamodb.models import Model
-from pynamodb.attributes import MapAttribute, NumberAttribute, UnicodeAttribute, UTCDateTimeAttribute
+from pynamodb.attributes import MapAttribute, NumberAttribute, UnicodeAttribute, UnicodeSetAttribute, UTCDateTimeAttribute
 
 from config import DYNAMODB_URL, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 
@@ -33,8 +33,8 @@ class Song(Model):
     # Song duration
     duration_ms = NumberAttribute(default=0) # UnicodeAttribute(default="03:15")
 
-    # Number of upvotes on this song
-    upvotes = NumberAttribute(default=0)
+    # A set of user_id's that have upvoted this song
+    upvotes = UnicodeSetAttribute(default=dict)
 
     # Song image url
     image_url = UnicodeAttribute()

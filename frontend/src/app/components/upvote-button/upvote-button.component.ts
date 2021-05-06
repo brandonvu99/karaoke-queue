@@ -12,7 +12,7 @@ export class UpvoteButtonComponent implements OnInit {
 
   @Input() song!:Song;
 
-  userVoted:boolean = false;
+  userCanVote:boolean = true;
 
   subscription?:Subscription;
 
@@ -23,25 +23,25 @@ export class UpvoteButtonComponent implements OnInit {
     //                     if (this.userId) this.userVote = upvotes[this.userId]
     //                     this.voteCount = sum(values(upvotes))
     //                   })
+    this.userCanVote = !this.song.upvotes.includes("Brandon Vu")
   }
 
   upvote() {
-    let adder = this.userVoted ? -1 : 1
 
-    // Update in UI
-    this.song.upvotes += adder
+    // TODO: Update in UI?
 
     // Update in server
-    this.songService.updateUserVoteOnSong(this.song.id, adder)
+    console.log(`sending upvote: ${this.userCanVote}`)
+    this.songService.updateUserVoteOnSong(this.song.id, this.userCanVote)
 
     // update the user's status
-    this.userVoted = !this.userVoted;
+    this.userCanVote = !this.userCanVote;
   }
 
   setClasses() {
     let classes = {
-      "active": !this.userVoted,
-      "inactive": this.userVoted
+      "active": this.userCanVote,
+      "inactive": !this.userCanVote
     }
     return classes
   }

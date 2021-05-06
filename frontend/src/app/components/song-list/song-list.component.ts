@@ -83,7 +83,7 @@ export class SongListComponent implements OnInit {
       artist: song_info.artist,
       song_name: song_info.song_name,
       duration_ms: 0,
-      upvotes: 0
+      upvotes: []
     }
     
     // add song to local storage

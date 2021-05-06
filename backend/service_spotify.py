@@ -15,10 +15,8 @@ def get_artist_song_name_image_url_duration(artist, song_name):
     if len(songs) == 0:
         raise ValueError("artist and song_name did not get any results back")
     song_info = songs[0]
-    print(song_info)
     artist = song_info['album']['artists'][0]['name']
     song_name = song_info['name']
-    print(song_name)
     image_url = song_info['album']['images'][-2]['url']
     duration = song_info['duration_ms']
     return artist, song_name, image_url, duration

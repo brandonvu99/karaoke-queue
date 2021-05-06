@@ -56,13 +56,13 @@ def create_song(song_queue_id):
         image_url=image_url
     )
     song_to_write.save()
-    return dict(song_to_write), 200
+    return song_to_dict(song_to_write), 200
 
 @app.route("/api/song_queues/<song_queue_id>/songs", methods=['GET'])
 def get_songs(song_queue_id):
     retStrings = []
     for item in Song.query(song_queue_id):
-        retStrings.append(dict(item))
+        retStrings.append(song_to_dict(item))
     return jsonify(sorted(retStrings, key=lambda item: item['date_created'])), 200
 
 @app.route("/api/song_queues/<song_queue_id>/songs/<id>", methods=['DELETE'])
@@ -72,23 +72,34 @@ def delete_song(song_queue_id, id):
         id
     )
     song_to_delete.delete()
-    return dict(song_to_delete), 200
+    return song_to_dict(song_to_delete), 200
 
 @app.route("/api/song_queues/<song_queue_id>/songs/<id>/upvote", methods=['POST'])
-def update_upvote_on_song_by(song_queue_id, id):
+def update_upvote(song_queue_id, id):
     jsonData = request.json
-    update_upvote_by_this_much = int(jsonData['update_upvote_by_this_much'])
-    if abs(update_upvote_by_this_much) != 1:
-        return f'update_vote_by_this_much must be -1 or 1. Value was {update_upvote_by_this_much}', 400
+
+    user_id = jsonData['user_id']
+    is_upvote = jsonData['is_upvote']
+
     song_to_update = Song.get(
         song_queue_id,
         id
     )
-    updated_song_info = song_to_update.update(
-        actions=[
-            Song.upvotes.set(Song.upvotes + update_upvote_by_this_much)
-        ]
-    )["Attributes"]
+    if is_upvote:
+        updated_song_info = song_to_update.update(
+            actions=[
+                Song.upvotes.add({user_id})
+            ]
+        )
+    else:
+        updated_song_info = song_to_update.update(
+            actions=[
+                Song.upvotes.delete({user_id})
+            ]
+        )
+    updated_song_info = updated_song_info['Attributes']
+    print(updated_song_info)
+
     update_song = Song(
         song_queue_id=updated_song_info['song_queue_id']['S'],
         id=updated_song_info['id']['S'], 
@@ -97,10 +108,16 @@ def update_upvote_on_song_by(song_queue_id, id):
         artist=updated_song_info['artist']['S'],
         song_name=updated_song_info['song_name']['S'],
         duration_ms=int(updated_song_info['duration_ms']['N']),
-        upvotes=int(updated_song_info['upvotes']['N']),
+        upvotes=(list() if 'upvotes' not in updated_song_info else updated_song_info['upvotes']['SS']),
         image_url=updated_song_info['image_url']['S']
     )
-    return dict(update_song), 200
+    return song_to_dict(update_song), 200
+
+def song_to_dict(song):
+    song_dict = dict(song)
+    if song_dict['upvotes'] is None:
+        song_dict['upvotes'] = list()
+    return song_dict
 
 Song.create_table(wait=True)
 CORS(app)

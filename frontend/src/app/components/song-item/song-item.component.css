@@ -22,7 +22,7 @@ body {
 .song-item-bottom {
     order: 1;
     flex-grow: 0;
-    font-size: 20px;
+    font-size: 10px;
     background: #d67112;
 }
 

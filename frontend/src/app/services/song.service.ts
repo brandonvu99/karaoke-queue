@@ -66,7 +66,7 @@ export class SongService {
           song_info['artist'],
           song_info['song_name'],
           Number(song_info['duration_ms']),
-          Number(song_info['upvotes']),
+          song_info['upvotes'],
           String(song_info['image_url'])
         ))),
         retry(1),
@@ -88,9 +88,12 @@ export class SongService {
       .subscribe();
   }
 
-  updateUserVoteOnSong(songId:string, vote:number):Subscription {
+  updateUserVoteOnSong(songId:string, is_upvote:boolean):Subscription {
     return this.http.post<any>(`${this.backendApiUrl}/api/song_queues/1/songs/${songId}/upvote`, 
-      {"update_upvote_by_this_much" : vote}
+      {
+        "user_id" : "Brandon Vu",
+        "is_upvote": is_upvote
+      }
     ).pipe(retry(1),
         catchError(this.handleError))
       .subscribe();
