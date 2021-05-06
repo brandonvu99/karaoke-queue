@@ -23,7 +23,7 @@ export class UpvoteButtonComponent implements OnInit {
     //                     if (this.userId) this.userVote = upvotes[this.userId]
     //                     this.voteCount = sum(values(upvotes))
     //                   })
-    this.userCanVote = !this.song.upvotes.includes("Brandon Vu")
+    this.userCanVote = !this.song.upvotes.includes('Brandon Vu')
   }
 
   upvote() {

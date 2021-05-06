@@ -69,15 +69,6 @@ export class SongListComponent implements OnInit {
     })
   }
 
-  deleteSong(songToDelete: Song) {
-    // remove song from local storage
-    this.songs = this.songs.filter(song => song.id !== songToDelete.id)
-
-    // remove song from database
-    this.bufferDeleteSongs.push(songToDelete)
-    this.songService.deleteSong(songToDelete)
-  }
-
   addSong(song_info:any) {
     let songToAdd = {
       song_queue_id: "1",
@@ -95,6 +86,15 @@ export class SongListComponent implements OnInit {
 
     // add song to database
     this.songService.addSong(songToAdd);
+  }
+
+  deleteSong(songToDelete: Song) {
+    // remove song from local storage
+    this.songs = this.songs.filter(song => song.id !== songToDelete.id)
+
+    // remove song from database
+    this.bufferDeleteSongs.push(songToDelete)
+    this.songService.deleteSong(songToDelete)
   }
 
   trackSong(index:number, song:Song) {

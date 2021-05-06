@@ -87,8 +87,6 @@ img {
 }
 
 .del {
-    order: 3;
-    flex-grow: 0;
     background: #ff0000;
     color: #fff;
     border: none;

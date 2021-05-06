@@ -1,4 +1,4 @@
-<div [ngClass]="setClasses()">
+<div class="song-item">
     <div class="song-item-top">
         <div class="votes-cell">
             <app-upvote-button [song]="song">
@@ -21,10 +21,10 @@
             </div>
         </div>
         <div class="del-cell">
-            <button (click)="onDelete(song)" class="del">x</button>
+            <button *ngIf="this.song.user_id === 'Brandon Vu'" (click)="onDelete(song)" class="del">x</button>
         </div>
     </div>
-    <div class="song-item-bottom">
+    <div class="song-item-bottom ">
         <div>
             People who upvoted: {{ song.upvotes }}
         </div>

@@ -78,13 +78,6 @@ export class SongItemComponent implements OnInit {
     this.songWaitTimeSubscription?.unsubscribe()
   }
 
-  setClasses() {
-    let classes = {
-      "song-item": true
-    }
-    return classes
-  }
-
   onDelete(song:Song) {
     this.timeSinceCreatedSubscription?.unsubscribe();
     this.songWaitTimeSubscription?.unsubscribe();
