@@ -92,4 +92,8 @@ export class SongListComponent implements OnInit {
     // add song to database
     this.songService.addSong(songToAdd);
   }
+
+  trackSong(index:number, song:Song) {
+    return song ? song.id : null
+  }
 }

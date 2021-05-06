@@ -1,2 +1,2 @@
 <app-add-song (addSong)="addSong($event)"></app-add-song>
-<app-song-item *ngFor="let song of songs" [song]="song" (deleteSong)="deleteSong($event)"></app-song-item>
+<app-song-item *ngFor="let song of songs; trackBy:trackSong" [song]="song" (deleteSong)="deleteSong($event)"></app-song-item>
