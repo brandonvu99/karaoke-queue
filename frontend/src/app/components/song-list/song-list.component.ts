@@ -4,6 +4,10 @@ import { Song } from '../../models/Song'
 import { SongService } from '../../services/song.service'
 import { v4 as uuid4 } from 'uuid';
 import * as moment from 'moment';
+import { UserService } from '../../services/user.service'
+
+// TODO: sort the song list in real time (backend already does this, just find a way to reorder the list without losing the trackBy fix for the flickering)
+// https://stackoverflow.com/questions/48418019/sorting-an-ngfor-array-with-trackby-in-angular-4
 
 @Component({
   selector: 'app-songs',
@@ -18,12 +22,12 @@ export class SongListComponent implements OnInit {
 
   private refreshSubscription:Subscription;
 
-  constructor(private songService:SongService) {
+  constructor(private songService:SongService, private userService:UserService) {
     this.refreshSubscription = new Subscription();
   }
 
   ngOnInit(): void {
-    this.refreshSubscription = timer(1000, 1000).subscribe( _ => {
+    this.refreshSubscription = timer(0, 1000).subscribe( _ => {
       console.log('refreshing songs')
       this.refresh()
     })
@@ -73,7 +77,7 @@ export class SongListComponent implements OnInit {
     let songToAdd = {
       song_queue_id: "1",
       id: uuid4(),
-      requester_id: "Brandon Vu Angular",
+      requester_id: this.userService.getUserId(),
       date_created: moment(),
       artist: song_info.artist,
       song_name: song_info.song_name,
@@ -98,6 +102,7 @@ export class SongListComponent implements OnInit {
   }
 
   trackSong(index:number, song:Song) {
-    return song ? song.id : null
+    // return song ? song.id : null
+    return song ? index + song.id + this.songs?.length : null
   }
 }

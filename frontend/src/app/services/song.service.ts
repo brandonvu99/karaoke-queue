@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subscription, Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { UserService } from 'src/app/services/user.service';
 
 import { Song } from '../models/Song'
 
@@ -13,6 +14,8 @@ const httpOptions = {
   }
 }
 
+// TODO: add authentication ("Brandon Angular" <-- used to find this later when I switch over hardcoded requester_id) https://stackoverflow.com/questions/33860262/how-to-interact-with-back-end-after-successful-auth-with-oauth-on-front-end
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,9 +26,9 @@ export class SongService {
 
   song_id_to_image: Map<string, any> = new Map()
 
-  backendApiUrl:string = "http://127.0.0.1:5000"
+  backendApiUrl:string = "http://192.168.1.11:5000"
 
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient, private userService:UserService) { 
     let mockSongs = [
       {
         artist: "RuPaul",
@@ -91,7 +94,7 @@ export class SongService {
   updateUserVoteOnSong(songId:string, is_upvote:boolean):Subscription {
     return this.http.post<any>(`${this.backendApiUrl}/api/song_queues/1/songs/${songId}/upvote`, 
       {
-        "requester_id" : "Brandon Vu Angular",
+        "requester_id" : this.userService.getUserId(),
         "is_upvote": is_upvote
       }
     ).pipe(retry(1),

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Song } from '../../models/Song'
 import { Subscription } from 'rxjs';
 import { SongService } from 'src/app/services/song.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-upvote-button',
@@ -16,14 +17,14 @@ export class UpvoteButtonComponent implements OnInit {
 
   subscription?:Subscription;
 
-  constructor(private songService:SongService) { }
+  constructor(private songService:SongService, private userService:UserService) { }
 
   ngOnInit() {
     // this.subscription = this.upvoteService.getItemVotes(this.itemId).subscribe(upvotes => {
     //                     if (this.userId) this.userVote = upvotes[this.userId]
     //                     this.voteCount = sum(values(upvotes))
     //                   })
-    this.userCanVote = !this.song.upvotes.includes('Brandon Vu Angular')
+    this.userCanVote = !this.song.upvotes.includes(this.userService.getUserId())
   }
 
   upvote() {

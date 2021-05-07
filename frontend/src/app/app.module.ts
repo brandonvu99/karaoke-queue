@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'
 import { NgxCsvParserModule } from 'ngx-csv-parser';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,7 +29,8 @@ import { UpvoteButtonComponent } from './components/upvote-button/upvote-button.
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgxCsvParserModule
+    NgxCsvParserModule,
+    ScrollingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.1.2",
+    "@angular/cdk": "^11.2.12",
     "@angular/common": "~11.1.2",
     "@angular/compiler": "~11.1.2",
     "@angular/core": "~11.1.2",
@@ -22,6 +23,7 @@
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "ngx-csv-parser": "0.0.7",
+    "ngx-device-detector": "^2.0.9",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "uuid": "^8.3.2",

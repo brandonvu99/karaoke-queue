@@ -21,21 +21,21 @@
             </div>
         </div>
         <div class="del-cell">
-            <button *ngIf="this.song.requester_id === 'Brandon Vu Angular'" (click)="onDelete(song)" class="del">x</button>
+            <button *ngIf="this.doesRequesterIdMatchUserId()" (click)="onDelete(song)" class="del">x</button>
         </div>
     </div>
     <div class="song-item-bottom ">
         <div>
-            Person who requested: {{ song.requester_id }}
+            <b>Person who requested:</b> {{ song.requester_id }}
         </div>
         <div>
-            People who upvoted: {{ song.upvotes }}
+            <b>People who upvoted:</b> {{ song.upvotes }}
         </div>
         <div>
-            Time since added: {{ timeSinceCreated }}
+            <b>Time since added:</b> {{ timeSinceCreated }}
         </div>
         <div>
-            Wait time until play: {{ songWaitTime }}
+            <b>Wait time until play</b>: {{ songWaitTime }}
         </div>
     </div>
 </div>

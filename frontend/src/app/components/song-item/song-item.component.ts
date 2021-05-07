@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as moment from 'moment';
 import { Subscription, timer } from 'rxjs';
 import 'moment-duration-format';
+import { UserService } from 'src/app/services/user.service';
 
 const httpOptions = {
   responseType: 'blob' as 'blob',
@@ -27,7 +28,7 @@ export class SongItemComponent implements OnInit {
   songWaitTime:string|null = null;
   songWaitTimeSubscription:Subscription|null = null;
 
-  constructor(private songService:SongService, private http:HttpClient) {
+  constructor(private songService:SongService, private http:HttpClient, private userService:UserService) {
   }
 
   ngOnInit(): void { 
@@ -76,6 +77,10 @@ export class SongItemComponent implements OnInit {
   ngOnDestory(): void {
     this.timeSinceCreatedSubscription?.unsubscribe()
     this.songWaitTimeSubscription?.unsubscribe()
+  }
+
+  doesRequesterIdMatchUserId() {
+    return this.song.requester_id === this.userService.getUserId()
   }
 
   onDelete(song:Song) {

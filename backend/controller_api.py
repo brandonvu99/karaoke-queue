@@ -53,6 +53,7 @@ def create_song(song_queue_id):
         artist=artist,
         song_name=song_name,
         duration_ms=duration_ms,
+        upvotes=[requester_id],
         image_url=image_url
     )
     song_to_write.save()
@@ -63,7 +64,7 @@ def get_songs(song_queue_id):
     retStrings = []
     for item in Song.query(song_queue_id):
         retStrings.append(song_to_dict(item))
-    return jsonify(sorted(retStrings, key=lambda item: item['date_created'])), 200
+    return jsonify(sorted(retStrings, key=lambda item: (-len(item['upvotes']), item['date_created']))), 200
 
 @app.route("/api/song_queues/<song_queue_id>/songs/<id>", methods=['DELETE'])
 def delete_song(song_queue_id, id):
@@ -98,7 +99,6 @@ def update_upvote(song_queue_id, id):
             ]
         )
     updated_song_info = updated_song_info['Attributes']
-    print(updated_song_info)
 
     update_song = Song(
         song_queue_id=updated_song_info['song_queue_id']['S'],
@@ -117,8 +117,78 @@ def song_to_dict(song):
     song_dict = dict(song)
     if song_dict['upvotes'] is None:
         song_dict['upvotes'] = list()
+    else:
+        song_dict['upvotes'].sort()
     return song_dict
 
 Song.create_table(wait=True)
+
+def create_song_manual(requester_id, artist, song_name, date_created, upvotes):
+    try:
+        artist, song_name, image_url, duration_ms = service_spotify.get_artist_song_name_image_url_duration(artist, song_name)
+    except ValueError as e:
+        return str(e), 400
+
+    song_to_write = Song(
+        song_queue_id=1,
+        id=str(uuid.uuid4()), 
+        requester_id=requester_id, 
+        date_created=date_created, 
+        artist=artist,
+        song_name=song_name,
+        duration_ms=duration_ms,
+        upvotes=upvotes,
+        image_url=image_url
+    )
+    song_to_write.save()
+    return song_to_dict(song_to_write), 200
+
+if Song.count() == 0:
+    import random
+    random.seed(0x022499)
+    for song in [[
+                    "Lady Gaga",
+                    "Bad Romance",
+                    datetime.now() - timedelta(days=1, hours=1, minutes=0),
+                    4
+                ],
+                [
+                    "Paramore",
+                    "Still Into You",
+                    datetime.now() - timedelta(days=0, hours=3, minutes=0),
+                    4
+                ],
+                [
+                    "Lady Gaga",
+                    "Judas",
+                    datetime.now() - timedelta(days=0, hours=1, minutes=0),
+                    4
+                ],
+                [
+                    "gym class heroes",
+                    "ass back home",
+                    datetime.now() - timedelta(days=0, hours=2, minutes=0),
+                    3
+                ],
+                [
+                    "Taylor Swift",
+                    "love story",
+                    datetime.now() - timedelta(days=0, hours=1, minutes=0),
+                    2
+                ],
+                [
+                    "Katy Perry",
+                    "Dark Horse",
+                    datetime.now() - timedelta(days=0, hours=1, minutes=0),
+                    1
+                ],]:
+        requesters = ["BrandonBackend", "BrandonAngularWindowsChrome", "BrandonAngulariOSSafari"]
+        fake_upvoters = ["APython", "Python1", "Python2", "Python3", "ZPython"]
+        create_song_manual(
+            random.sample(requesters, 1)[0],
+            *song[0:3], 
+            random.sample(fake_upvoters, song[3])
+        )
+
 CORS(app)
-app.run(debug=True)
+app.run(debug=True, host='0.0.0.0')
