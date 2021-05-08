@@ -9,8 +9,8 @@ class Song(Model):
         host = config_service.configuration['aws']['dynamodb']['host-url']
         aws_access_key_id = config_service.configuration['aws']['access-key-id']
         aws_secret_access_key = config_service.configuration['aws']['secret-access-key']
-        write_capacity_units = 10
-        read_capacity_units = 10
+        write_capacity_units = 5
+        read_capacity_units = 5
 
     # Partition Key, tells us which Song_Queue this Song belongs to
     song_queue_id = UnicodeAttribute(hash_key=True)
