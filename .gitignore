@@ -1,2 +1,9 @@
+# VS Code
+.vscode/
+
+# Python
 *.pyc
+virtualenv/
+
+# Configuration
 backend/configs/dev_local.yaml
