@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { UserService } from 'src/app/services/user.service';
 
 import { Song } from '../models/Song'
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: {
@@ -26,9 +27,10 @@ export class SongService {
 
   song_id_to_image: Map<string, any> = new Map()
 
-  backendApiUrl:string = "http://192.168.1.11:5000"
+  backendApiUrl:string;
 
-  constructor(private http:HttpClient, private userService:UserService) { 
+  constructor(private http:HttpClient, private userService:UserService) {
+    this.backendApiUrl = environment.baseApiUrl;
     let mockSongs = [
       {
         artist: "RuPaul",
