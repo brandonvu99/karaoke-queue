@@ -4,6 +4,7 @@
 # Python
 *.pyc
 virtualenv/
+.cache
 
 # Configuration
 backend/configs/dev_local.yaml
