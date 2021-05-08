@@ -1,8 +1,8 @@
 aws:
   dynamodb:
     host-url: "dynamodb host url here"
-  access-key-id: "anything"
-  secret-access-key: "fake"
+  access-key-id: "aws access key id here" # This value can be anything for local development with a dynamodb docker container.
+  secret-access-key: "aws secret access key here" # This value can be anything for local development with a dynamodb docker container.
 spotify:
   client-id: "spotify client id here"
   client-secret: "spotify client secret here"
