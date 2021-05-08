@@ -129,7 +129,7 @@ def create_song_manual(requester_id, artist, song_name, date_created, upvotes):
         return str(e), 400
 
     song_to_write = Song(
-        song_queue_id=1,
+        song_queue_id="1",
         id=str(uuid.uuid4()), 
         requester_id=requester_id, 
         date_created=date_created, 
