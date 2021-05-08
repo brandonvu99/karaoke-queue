@@ -11,6 +11,7 @@ export class UserService {
 
   constructor(private deviceService: DeviceDetectorService, private cookieService: CookieService) {
     this.user_id = this.cookieService.get("username");
+    if (this.user_id === "") this.user_id = "Default User";
     console.log(`Username is: ${this.user_id}`)
   }
 
