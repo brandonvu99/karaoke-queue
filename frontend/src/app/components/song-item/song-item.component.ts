@@ -19,14 +19,16 @@ const httpOptions = {
 export class SongItemComponent implements OnInit {
 
   @Input() song!:Song;
+  @Input() songWaitTimeMs!:number;
   @Output() deleteSong:EventEmitter<Song> = new EventEmitter();
 
   imageToShow:any;
 
   timeSinceCreated:string|null = null;
   timeSinceCreatedSubscription:Subscription|null = null;
-  songWaitTime:string|null = null;
-  songWaitTimeSubscription:Subscription|null = null;
+  songWaitTimeReadable:string|null = null;
+  // songWaitTime:string|null = null;
+  // songWaitTimeSubscription:Subscription|null = null;
 
   constructor(private songService:SongService, private http:HttpClient, private userService:UserService) {
   }
@@ -60,6 +62,10 @@ export class SongItemComponent implements OnInit {
       this.timeSinceCreated = moment(this.song.date_created).fromNow()
     })
 
+    let songWaitTimeMsDuration = moment.duration(this.songWaitTimeMs, 'ms')
+    // this.songWaitTimeReadable = `${songWaitTimeMsDuration.asHours() > 0 ? songWaitTimeMsDuration.hours().toString().padStart(2, '0') + ":" : ""}${songWaitTimeMsDuration.minutes().toString().padStart(2, '0')}:${songWaitTimeMsDuration.seconds().toString().padStart(2, '0')}`
+    this.songWaitTimeReadable = songWaitTimeMsDuration.format("HH:mm:ss", {trim: false})
+
     // // display the time until the song is played
     // this.waitTimeSubscription = timer(1000, 6000).subscribe( _ => {
     //   let cumulativeTimeInMs:number = 0;
@@ -76,7 +82,7 @@ export class SongItemComponent implements OnInit {
 
   ngOnDestory(): void {
     this.timeSinceCreatedSubscription?.unsubscribe()
-    this.songWaitTimeSubscription?.unsubscribe()
+    // this.songWaitTimeSubscription?.unsubscribe()
   }
 
   doesRequesterIdMatchUserId() {
@@ -85,7 +91,7 @@ export class SongItemComponent implements OnInit {
 
   onDelete(song:Song) {
     this.timeSinceCreatedSubscription?.unsubscribe();
-    this.songWaitTimeSubscription?.unsubscribe();
+    // this.songWaitTimeSubscription?.unsubscribe();
     this.deleteSong.emit(song);
   }
 }

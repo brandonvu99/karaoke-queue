@@ -1,7 +1,7 @@
 <app-add-song (addSong)="addSong($event)"></app-add-song>
 <div class="viewport-container">
     <!-- <cdk-virtual-scroll-viewport itemSize="50" class="viewport"> -->
-    <app-song-item *ngFor="let song of songs; trackBy:trackSong" [song]="song" (deleteSong)="deleteSong($event)">
+    <app-song-item *ngFor="let song of songs; let i = index; trackBy:trackSong" [song]="song" [songWaitTimeMs]="getWaitTime(i)" (deleteSong)="deleteSong($event)">
     </app-song-item>
     <!-- </cdk-virtual-scroll-viewport> -->
 </div>

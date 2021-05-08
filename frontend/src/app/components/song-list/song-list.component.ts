@@ -17,6 +17,7 @@ import { UserService } from '../../services/user.service'
 export class SongListComponent implements OnInit {
 
   songs:Song[] = [];
+  songsDuration:number[] = [];
   bufferAddSongs:Song[] = [];
   bufferDeleteSongs:Song[] = [];
 
@@ -70,7 +71,19 @@ export class SongListComponent implements OnInit {
       this.bufferDeleteSongs = this.bufferDeleteSongs.filter(bufferDeleteSong => {
         return refreshedSongs.find(refreshedSong => refreshedSong.id === bufferDeleteSong.id) ? true : false
       })
+
+      // update durations?
+      let rollingSum:number = 0;
+      this.songsDuration = this.songs.map(song => {
+        let waitTimeForThisSong:number = rollingSum;
+        rollingSum += song.duration_ms;
+        return waitTimeForThisSong;
+      })
     })
+  }
+
+  getWaitTime(index:number):number {
+    return this.songsDuration[index];
   }
 
   addSong(song_info:any) {
