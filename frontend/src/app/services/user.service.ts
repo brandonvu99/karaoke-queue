@@ -17,6 +17,7 @@ export class UserService {
 
   setUserId(user_id:string) {
     this.user_id = user_id;
+    if (this.user_id === "") this.user_id = "Default User";
     this.cookieService.set("username", user_id)
   }
 
