@@ -28,7 +28,7 @@ export class SongListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.refreshSubscription = timer(0, 10000).subscribe( _ => {
+    this.refreshSubscription = timer(0, 2000).subscribe( _ => {
       console.log('refreshing songs')
       this.refresh()
     })
