@@ -1,14 +1,14 @@
 from pynamodb.models import Model
 from pynamodb.attributes import MapAttribute, NumberAttribute, UnicodeAttribute, UnicodeSetAttribute, UTCDateTimeAttribute
 
-from config import DYNAMODB_URL, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+from src.services import config_service
 
 class Song(Model):
     class Meta:
         table_name = "songs"
-        host = DYNAMODB_URL
-        aws_access_key_id = AWS_ACCESS_KEY_ID
-        aws_secret_access_key = AWS_SECRET_ACCESS_KEY
+        host = config_service.configuration['aws']['dynamodb']['host-url']
+        aws_access_key_id = config_service.configuration['aws']['access-key-id']
+        aws_secret_access_key = config_service.configuration['aws']['secret-access-key']
         write_capacity_units = 10
         read_capacity_units = 10
 

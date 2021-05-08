@@ -1,15 +1,14 @@
 from flask import Flask, request, jsonify
-import json
 import uuid
 from datetime import datetime, timedelta
 from flask_cors import CORS, cross_origin
 
-from Song import Song
-import service_spotify
+from ..types.Song import Song
+from ..services import spotify_service
 
-app = Flask(__name__)
+flask_app = Flask(__name__)
 
-@app.route("/", methods=['GET'])
+@flask_app.route("/", methods=['GET'])
 def get_initial_response():
     """Welcome message for the API."""
     # Message to the user
@@ -23,7 +22,7 @@ def get_initial_response():
     # Returning the object
     return resp
 
-@app.route("/api/song_queues/<song_queue_id>/songs", methods=['POST'])
+@flask_app.route("/api/song_queues/<song_queue_id>/songs", methods=['POST'])
 def create_song(song_queue_id):
     jsonData = request.json
 
@@ -37,7 +36,7 @@ def create_song(song_queue_id):
         return f'Supplied date_created of ({jsonData["date_created"]}) does not match the strp format %Y-%m-%dT%H:%M:%S.%f%z. A correct example is 2021-05-04T20:36:41.994702+0000', 400
 
     try:
-        artist, song_name, image_url, duration_ms = service_spotify.get_artist_song_name_image_url_duration(artist, song_name)
+        artist, song_name, image_url, duration_ms = spotify_service.get_artist_song_name_image_url_duration(artist, song_name)
     except ValueError as e:
         return str(e), 400
     # duration_seconds = timedelta(microseconds=duration_ms*1000).seconds
@@ -59,14 +58,14 @@ def create_song(song_queue_id):
     song_to_write.save()
     return song_to_dict(song_to_write), 200
 
-@app.route("/api/song_queues/<song_queue_id>/songs", methods=['GET'])
+@flask_app.route("/api/song_queues/<song_queue_id>/songs", methods=['GET'])
 def get_songs(song_queue_id):
     retStrings = []
     for item in Song.query(song_queue_id):
         retStrings.append(song_to_dict(item))
     return jsonify(sorted(retStrings, key=lambda item: (-len(item['upvotes']), item['date_created']))), 200
 
-@app.route("/api/song_queues/<song_queue_id>/songs/<id>", methods=['DELETE'])
+@flask_app.route("/api/song_queues/<song_queue_id>/songs/<id>", methods=['DELETE'])
 def delete_song(song_queue_id, id):
     song_to_delete = Song.get(
         song_queue_id,
@@ -75,7 +74,7 @@ def delete_song(song_queue_id, id):
     song_to_delete.delete()
     return song_to_dict(song_to_delete), 200
 
-@app.route("/api/song_queues/<song_queue_id>/songs/<id>/upvote", methods=['POST'])
+@flask_app.route("/api/song_queues/<song_queue_id>/songs/<id>/upvote", methods=['POST'])
 def update_upvote(song_queue_id, id):
     jsonData = request.json
 
@@ -125,7 +124,7 @@ Song.create_table(wait=True)
 
 def create_song_manual(requester_id, artist, song_name, date_created, upvotes):
     try:
-        artist, song_name, image_url, duration_ms = service_spotify.get_artist_song_name_image_url_duration(artist, song_name)
+        artist, song_name, image_url, duration_ms = spotify_service.get_artist_song_name_image_url_duration(artist, song_name)
     except ValueError as e:
         return str(e), 400
 
@@ -190,5 +189,4 @@ if Song.count() == 0:
             random.sample(fake_upvoters, song[3])
         )
 
-CORS(app)
-app.run(debug=True, host='0.0.0.0')
+CORS(flask_app)

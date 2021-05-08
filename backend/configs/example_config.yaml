@@ -1,0 +1,8 @@
+aws:
+  dynamodb:
+    host-url: "dynamodb host url here"
+  access-key-id: "anything"
+  secret-access-key: "fake"
+spotify:
+  client-id: "spotify client id here"
+  client-secret: "spotify client secret here"
