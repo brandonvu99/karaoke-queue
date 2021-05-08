@@ -13,6 +13,9 @@ import { HeaderComponent } from './components/layout/header/header.component';
 import { AddSongComponent } from './components/add-song/add-song.component';
 import { AboutComponent } from './components/pages/about/about.component';
 import { UpvoteButtonComponent } from './components/upvote-button/upvote-button.component';
+import { UsernameComponent } from './components/username/username.component';
+
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { UpvoteButtonComponent } from './components/upvote-button/upvote-button.
     HeaderComponent,
     AddSongComponent,
     AboutComponent,
-    UpvoteButtonComponent
+    UpvoteButtonComponent,
+    UsernameComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,9 @@ import { UpvoteButtonComponent } from './components/upvote-button/upvote-button.
     NgxCsvParserModule,
     ScrollingModule
   ],
-  providers: [],
+  providers: [
+    CookieService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

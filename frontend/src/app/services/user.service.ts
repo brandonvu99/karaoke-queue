@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,14 @@ export class UserService {
 
   user_id:string;
 
-  constructor(private deviceService: DeviceDetectorService) {
-    this.user_id = `BrandonAngular${this.deviceService.os}${this.deviceService.browser}` 
+  constructor(private deviceService: DeviceDetectorService, private cookieService: CookieService) {
+    this.user_id = this.cookieService.get("username");
+    console.log(`Username is: ${this.user_id}`)
+  }
+
+  setUserId(user_id:string) {
+    this.user_id = user_id;
+    this.cookieService.set("username", user_id)
   }
 
   getUserId() {
