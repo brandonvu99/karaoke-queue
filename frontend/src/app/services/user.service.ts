@@ -15,10 +15,11 @@ export class UserService {
     console.log(`Username is: ${this.user_id}`)
   }
 
-  setUserId(user_id:string) {
-    this.user_id = user_id;
+  setUserId(new_user_id:string) {
+    this.user_id = new_user_id;
     if (this.user_id === "") this.user_id = "Default User";
-    this.cookieService.set("username", user_id)
+    this.cookieService.set("username", this.user_id)
+    return this.cookieService.get("username")
   }
 
   getUserId() {

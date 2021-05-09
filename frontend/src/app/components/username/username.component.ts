@@ -18,6 +18,6 @@ export class UsernameComponent implements OnInit {
   }
 
   onSubmit() {
-    this.userService.setUserId(this.username);
+    this.username = this.userService.setUserId(this.username);
   }
 }
