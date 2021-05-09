@@ -6,7 +6,7 @@ from src.services import config_service
 class Song(Model):
     class Meta:
         table_name = "songs"
-        host = config_service.configuration['aws']['dynamodb']['host-url']
+        # host = config_service.configuration['aws']['dynamodb']['host-url']
         aws_access_key_id = config_service.configuration['aws']['access-key-id']
         aws_secret_access_key = config_service.configuration['aws']['secret-access-key']
         write_capacity_units = 5

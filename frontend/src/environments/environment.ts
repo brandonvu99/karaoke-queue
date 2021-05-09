@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseApiUrl: "http://192.168.1.11:5000"
+  baseApiUrl: "https://flask-service.slkdj135vh6vg.us-east-1.cs.amazonlightsail.com/"
 };
 
 /*
