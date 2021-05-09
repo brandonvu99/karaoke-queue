@@ -38,7 +38,7 @@ CALLSTACK:$(Get-PSCallStack | Out-String)
 
 <############## Deploy the front-end into a public s3 bucket ##############>
 <# https://dev.to/svenfrese/how-to-deploy-your-angular-app-to-aws-s3-1341 #>
-
+echo "Deploying the front-end into the public s3 bucket"
 echo "Building the app..."
 cd frontend
 ng build --prod
@@ -105,7 +105,7 @@ cd $baseDirectory
 
 <############## Deploy the back-end using Lightsail ##############>
 <# https://aws.amazon.com/getting-started/hands-on/serve-a-flask-app/ #>
-
+echo "Deploying the backend using Lightsail"
 echo "Containerizing the back-end flask app"
 cd backend
 docker build -t flask-container .
