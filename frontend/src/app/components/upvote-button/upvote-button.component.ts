@@ -29,8 +29,6 @@ export class UpvoteButtonComponent implements OnInit {
 
   upvote() {
 
-    // TODO: Update in UI?
-
     // Update in server
     console.log(`sending upvote: ${this.userCanVote}`)
     this.songService.updateUserVoteOnSong(this.song.id, this.userCanVote)

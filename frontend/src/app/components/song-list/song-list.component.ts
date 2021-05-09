@@ -6,8 +6,6 @@ import { v4 as uuid4 } from 'uuid';
 import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service'
 
-// TODO: sort the song list in real time (backend already does this, just find a way to reorder the list without losing the trackBy fix for the flickering)
-// https://stackoverflow.com/questions/48418019/sorting-an-ngfor-array-with-trackby-in-angular-4
 
 @Component({
   selector: 'app-songs',

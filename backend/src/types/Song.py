@@ -52,5 +52,3 @@ class Song(Model):
                 yield name, getattr(self, name).as_dict()
             else:
                 yield name, attr.serialize(getattr(self, name))
-
-# TODO: add a backup table so save all results because i love data
