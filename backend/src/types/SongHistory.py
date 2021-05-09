@@ -5,7 +5,7 @@ from pynamodb.settings import default_settings_dict
 from src.services import config_service
 from src.types.utils import setup_model
 
-class SongWithoutConfiguration(Model):
+class SongHistoryWithoutConfiguration(Model):
     class Meta:
         write_capacity_units = 5
         read_capacity_units = 5
@@ -41,7 +41,7 @@ class SongWithoutConfiguration(Model):
         if self is o:
             return True
         return ((o is not None) and \
-                (o.__class__ == SongWithoutConfiguration) and \
+                (o.__class__ == SongHistoryWithoutConfiguration) and \
                 (o.id == self.id))
     
     def __iter__(self):
@@ -66,9 +66,9 @@ try:
 except KeyError:
     aws_secret_access_key = None
 
-Song = setup_model(
-    SongWithoutConfiguration,
-    "songs",
+SongHistory = setup_model(
+    SongHistoryWithoutConfiguration,
+    "songs-history",
     dynamodb_host,
     aws_access_key_id,
     aws_secret_access_key

@@ -8,6 +8,7 @@ virtualenv/
 
 # Configuration
 backend/configs/dev_local.yaml
+backend/configs/prod.yaml
 
 # Deployment
 frontend/bucket-policy.json

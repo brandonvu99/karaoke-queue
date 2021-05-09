@@ -88,8 +88,7 @@ export class SongService {
 
   addSong(song: Song):Subscription {
     return this.http.post<Song>(`${this.backendApiUrl}/api/song_queues/1/songs`, song)
-      .pipe(retry(1),
-        catchError(this.handleError))
+      .pipe(catchError(this.handleError))
       .subscribe();
   }
 
