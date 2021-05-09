@@ -1,3 +1,16 @@
+.disallow-clicks {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 50%;
+}
+
+.set-username-warning {
+    text-align: center;
+    font-size: x-large;
+    color: white;
+    background-color: red;
+}
+
 .viewport-container {
     display: flex;
     flex-direction: column;

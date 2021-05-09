@@ -1,8 +1,11 @@
 <app-username></app-username>
-<app-add-song (addSong)="addSong($event)"></app-add-song>
-<div class="viewport-container">
-    <!-- <cdk-virtual-scroll-viewport itemSize="50" class="viewport"> -->
-    <app-song-item *ngFor="let song of songs; let i = index; trackBy:trackSong" [song]="song" [songWaitTimeMs]="getWaitTime(i)" (deleteSong)="deleteSong($event)">
-    </app-song-item>
-    <!-- </cdk-virtual-scroll-viewport> -->
+<div *ngIf="isDefaultUser()" class="set-username-warning">PLEASE SET YOUR NAME ABOVE BEFORE YOU CAN INTERACT WITH THE SONG QUEUE! 🤠🤠</div>
+<div [ngClass]="setClassForNoInteraction()">
+    <app-add-song (addSong)="addSong($event)"></app-add-song>
+    <div class="viewport-container">
+        <!-- <cdk-virtual-scroll-viewport itemSize="50" class="viewport"> -->
+        <app-song-item *ngFor="let song of songs; let i = index; trackBy:trackSong" [song]="song" [songWaitTimeMs]="getWaitTime(i)" (deleteSong)="deleteSong($event)">
+        </app-song-item>
+        <!-- </cdk-virtual-scroll-viewport> -->
+    </div>
 </div>

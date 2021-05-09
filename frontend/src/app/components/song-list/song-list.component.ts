@@ -114,6 +114,17 @@ export class SongListComponent implements OnInit {
     this.songService.deleteSong(songToDelete)
   }
 
+  isDefaultUser() {
+    return this.userService.isDefaultUser();
+  }
+
+  setClassForNoInteraction() {
+    let classes = {
+      "disallow-clicks": this.userService.isDefaultUser()
+    }
+    return classes
+  }
+
   trackSong(index:number, song:Song) {
     // return song ? song.id : null
     return song ? index + song.id + this.songs?.length : null
