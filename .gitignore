@@ -8,3 +8,8 @@ virtualenv/
 
 # Configuration
 backend/configs/dev_local.yaml
+
+# Deployment
+frontend/bucket-policy.json
+backend/containers.json
+backend/public-endpoint.json
