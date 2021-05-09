@@ -113,7 +113,7 @@ CheckLastExitCode
 echo "Containerized the back-end flask app"
 
 echo "Creating a container service on Lightsail"
-# $throwaway = & aws lightsail create-container-service --service-name flask-service --power small --scale 1
+$throwaway = & aws lightsail create-container-service --service-name flask-service --power small --scale 1
 CheckLastExitCode
 
 echo "Waiting until the container service is ready"
