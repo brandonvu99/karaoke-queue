@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
-import { Song } from '../../models/Song'
-import { SongService } from '../../services/song.service'
+import { Song } from 'src/app/models/Song'
+import { SongService } from 'src/app/services/song.service'
 import { v4 as uuid4 } from 'uuid';
 import * as moment from 'moment';
-import { UserService } from '../../services/user.service'
+import { UserService } from 'src/app/services/user.service'
 
 // TODO: sort the song list in real time (backend already does this, just find a way to reorder the list without losing the trackBy fix for the flickering)
 // https://stackoverflow.com/questions/48418019/sorting-an-ngfor-array-with-trackby-in-angular-4

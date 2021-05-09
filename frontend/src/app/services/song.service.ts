@@ -4,7 +4,7 @@ import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { UserService } from 'src/app/services/user.service';
 
-import { Song } from '../models/Song'
+import { Song } from 'src/app/models/Song'
 import { environment } from 'src/environments/environment';
 
 const httpOptions = {

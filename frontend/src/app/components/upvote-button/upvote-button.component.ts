@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Song } from '../../models/Song'
+import { Song } from 'src/app/models/Song'
 import { Subscription } from 'rxjs';
 import { SongService } from 'src/app/services/song.service';
 import { UserService } from 'src/app/services/user.service';

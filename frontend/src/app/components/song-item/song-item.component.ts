@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Song } from '../../models/Song'
-import { SongService } from '../../services/song.service';
+import { Song } from 'src/app/models/Song'
+import { SongService } from 'src/app/services/song.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as moment from 'moment';
 import { Subscription, timer } from 'rxjs';
