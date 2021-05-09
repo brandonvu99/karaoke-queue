@@ -41,9 +41,11 @@ def create_song(song_queue_id):
         artist, song_name, image_url, duration_ms = spotify_service.get_artist_song_name_image_url_duration(artist, song_name)
     except ValueError as e:
         return "Could not get spotify details" + str(e), 400
+    
+    song_id = str(uuid.uuid4())
     song_to_write = Song(
         song_queue_id=song_queue_id,
-        id=str(uuid.uuid4()), 
+        id=song_id, 
         requester_id=requester_id, 
         date_created=date_created, 
         artist=artist,
@@ -55,7 +57,7 @@ def create_song(song_queue_id):
     song_to_write.save()
     song_history_to_write = SongHistory(
         song_queue_id=song_queue_id,
-        id=str(uuid.uuid4()), 
+        id=song_id, 
         requester_id=requester_id, 
         date_created=date_created, 
         artist=artist,
