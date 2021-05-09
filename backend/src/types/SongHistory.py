@@ -1,12 +1,13 @@
 from pynamodb.models import Model
 from pynamodb.attributes import MapAttribute, NumberAttribute, UnicodeAttribute, UnicodeSetAttribute, UTCDateTimeAttribute
-from pynamodb.settings import default_settings_dict
-from typing import Type
 
 from src.services import config_service
+from src.types import Song
 
-class BaseSong(Model):
+class SongHistory(Model):
     class Meta:
+        table_name = "songs-history"
+        host = config_service.configuration['aws']['dynamodb']['host-url']
         aws_access_key_id = config_service.configuration['aws']['access-key-id']
         aws_secret_access_key = config_service.configuration['aws']['secret-access-key']
         write_capacity_units = 5
@@ -43,7 +44,7 @@ class BaseSong(Model):
         if self is o:
             return True
         return ((o is not None) and \
-                (o.__class__ == BaseSong) and \
+                (o.__class__ == Song) and \
                 (o.id == self.id))
     
     def __iter__(self):
@@ -52,24 +53,3 @@ class BaseSong(Model):
                 yield name, getattr(self, name).as_dict()
             else:
                 yield name, attr.serialize(getattr(self, name))
-
-# Solution found from: https://github.com/pynamodb/PynamoDB/issues/287
-def setup_model(model_class: Type[Model],
-                table_name: str,
-                host: str = '') -> Type[Model]:
-    if not issubclass(model_class, Model):
-        raise TypeError('Model class must be a subclass of Model')
-    
-    meta_class = getattr(model_class, 'Meta')
-
-    setattr(meta_class, 'table_name', table_name)
-    if bool(host):
-        setattr(meta_class, 'host', host)
-
-    return model_class
-
-Song = setup_model(
-    BaseSong,
-    "songs",
-    config_service.configuration['aws']['dynamodb']['host-url']
-)

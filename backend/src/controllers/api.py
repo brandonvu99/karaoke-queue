@@ -29,21 +29,23 @@ def create_song(song_queue_id):
     requester_id = jsonData['requester_id']
     artist = jsonData['artist']
     song_name = jsonData['song_name']
+    print("HI")
 
     try:
         date_created = datetime.strptime(jsonData['date_created'], r'%Y-%m-%dT%H:%M:%S.%f%z')
     except ValueError:
         return f'Supplied date_created of ({jsonData["date_created"]}) does not match the strp format %Y-%m-%dT%H:%M:%S.%f%z. A correct example is 2021-05-04T20:36:41.994702+0000', 400
 
+    print("HI1")
     try:
         artist, song_name, image_url, duration_ms = spotify_service.get_artist_song_name_image_url_duration(artist, song_name)
     except ValueError as e:
-        return str(e), 400
+        return "Could not get spotify details" + str(e), 400
     # duration_seconds = timedelta(microseconds=duration_ms*1000).seconds
     # hours, remainder = divmod(duration_seconds, 3600)
     # minutes, seconds = divmod(remainder, 60)
     # duration_str = '{:02}:{:02}'.format(int(minutes), int(seconds))
-
+    print("HI2")
     song_to_write = Song(
         song_queue_id=song_queue_id,
         id=str(uuid.uuid4()), 
@@ -56,6 +58,7 @@ def create_song(song_queue_id):
         image_url=image_url
     )
     song_to_write.save()
+    print("HI3")
     return song_to_dict(song_to_write), 200
 
 @flask_app.route("/api/song_queues/<song_queue_id>/songs", methods=['GET'])
