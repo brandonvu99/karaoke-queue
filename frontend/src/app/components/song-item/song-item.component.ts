@@ -91,8 +91,12 @@ export class SongItemComponent implements OnInit {
   }
 
   onDelete(song:Song) {
-    this.timeSinceCreatedSubscription?.unsubscribe();
-    // this.songWaitTimeSubscription?.unsubscribe();
-    this.deleteSong.emit(song);
+    if(confirm(`Are you sure you want to delete "${song.song_name}" by ${song.artist}?`)) {
+      if(confirm(`Are you REALLY DOUBLE DOG sure you want to delete "${song.song_name}" by ${song.artist}?`)) {
+        if(confirm(`You CANNOT undo this delete on "${song.song_name}" by ${song.artist}!!`)) {
+          this.deleteSong.emit(song);
+        }
+      }
+    }
   }
 }
