@@ -39,7 +39,7 @@ CALLSTACK:$(Get-PSCallStack | Out-String)
 <############## Deploy the front-end into a public s3 bucket ##############>
 <# https://dev.to/svenfrese/how-to-deploy-your-angular-app-to-aws-s3-1341 #>
 echo "Deploying the front-end into the public s3 bucket"
-echo "Building the app..."
+echo "Building the front-end app..."
 cd frontend
 ng build --prod
 CheckLastExitCode
