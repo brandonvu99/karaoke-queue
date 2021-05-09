@@ -25,4 +25,8 @@ export class UserService {
   getUserId() {
     return this.user_id;
   }
+
+  isDefaultUser():boolean {
+    return this.user_id === "Default User" || this.user_id === "";
+  }
 }
