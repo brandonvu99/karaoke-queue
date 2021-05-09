@@ -81,6 +81,7 @@ aws s3 sync dist/karaoke-queue-app s3://karaoke-queue-app
 CheckLastExitCode
 
 echo "Checking that the frontend was deployed correctly through a curl"
+Start-Sleep -s 5
 $frontendUrl = "http://karaoke-queue-app.s3-website-us-east-1.amazonaws.com/"
 $response = Invoke-WebRequest -URI $frontendUrl
 if ($response.StatusCode -ne 200) {
@@ -174,6 +175,7 @@ DO {
 echo $("Container deployed to: " + $backEndUrl)
 
 echo "Doing a curl to check if the backend is really up and running"
+Start-Sleep -s 5
 $response = Invoke-WebRequest -URI $backEndUrl
 if ($response.StatusCode -ne 200) {
     throw "Response from backend url was not 200 OK"
