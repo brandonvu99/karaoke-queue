@@ -53,11 +53,11 @@ There will also be a table called `history_of_songs` in the future that stores a
 5. You should be able to load up the website at `http://localhost:4200`.
 
 # Deployment Strategy
-Currently, all these services are being manually deployed. Maybe I can look into something that hooks up to this repo and deploys everytime there's a code change, BUT to be honest I'm not gonna have this running 24/7 because I don't karaoke 24/7, so I think a manual deployment will work fine.
+Currently, all these services are being manually deployed through [this PowerShell script](https://github.com/brandonvu99/karaoke-queue/blob/master/deploy-everything.ps1). Maybe I can look into something that hooks up to this repo and deploys everytime there's a code change, BUT to be honest I'm not gonna have this running 24/7 because I don't karaoke 24/7, so I think a manual deployment will work fine.
 - Front-End:
     - Currently only using an s3 bucket to host a static website. Any better ideas would be much appreciated, but this website is pretty simple, so this may be it for the front-end.
 - Back-End:
     - Flask API:
-        - Elastic Beanstalk looks like a pretty promising service. All I care about is that I get the API mapped to a url, and EBS seems to be "input a flask app, output a curlable url".
+        - Hosted on Lightsail. Pretty simple "input a flask app, output a curlable url". I tried Elastic Beanstalk but the url was timing out, which probably had to do with some port being already taken idk
     - DynamoDB:
         - No big reason why this was chosen. I just found some "Angular-Flask-Dynamodb" guide, and I've stuck with it. Moving to another database would be basically a complete rewrite of the flask api, so maybe let's not do that 💗
