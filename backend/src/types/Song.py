@@ -51,6 +51,15 @@ class SongWithoutConfiguration(Model):
             else:
                 yield name, attr.serialize(getattr(self, name))
 
+    def __repr__(self) -> str:
+        return '\t'.join([str(x) for x in [
+            self.date_created,
+            len(self.upvotes),
+            self.requester_id,
+            self.artist,
+            self.song_name
+        ]])
+
 try:
     dynamodb_host = config_service.configuration['aws']['dynamodb']['host-url']
 except KeyError:
