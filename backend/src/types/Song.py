@@ -50,7 +50,7 @@ class SongWithoutConfiguration(Model):
                 yield name, getattr(self, name).as_dict()
             else:
                 yield name, attr.serialize(getattr(self, name))
-
+    
     def __repr__(self) -> str:
         return '\t'.join([str(x) for x in [
             self.date_created,
@@ -59,6 +59,9 @@ class SongWithoutConfiguration(Model):
             self.artist,
             self.song_name
         ]])
+
+    def __getitem__(self, item):
+        return self.__dict__['attribute_values'][item]
 
 try:
     dynamodb_host = config_service.configuration['aws']['dynamodb']['host-url']
