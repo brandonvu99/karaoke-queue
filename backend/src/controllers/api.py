@@ -74,7 +74,10 @@ def get_songs(song_queue_id):
     retStrings = []
     for item in Song.query(song_queue_id):
         retStrings.append(song_to_dict(item))
-    return jsonify(sorted(retStrings, key=lambda item: (-len(item['upvotes']), item['date_created']))), 200
+    return jsonify(sorted(retStrings, key=lambda item: sort_key_by_upvotes_descending_then_by_date_created_ascending(item))), 200
+
+def sort_key_by_upvotes_descending_then_by_date_created_ascending(item):
+    return (-len(item['upvotes']), item['date_created'])
 
 @flask_app.route("/api/song_queues/<song_queue_id>/songs/<id>", methods=['DELETE'])
 def delete_song(song_queue_id, id):
