@@ -87,7 +87,7 @@ $response = Invoke-WebRequest -URI $frontendUrl
 if ($response.StatusCode -ne 200) {
     throw "Response from frontend url was not 200 OK"
 }
-echo "Checked that the frontend was deployed correctly"
+echo $("Frontend was deployed correctly to: " + $frontendUrl)
 
 cd $baseDirectory
 
